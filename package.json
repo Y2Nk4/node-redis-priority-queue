@@ -1,0 +1,34 @@
+{
+  "name": "redis-priority-queue",
+  "version": "1.0.0",
+  "description": "A Groupable Priority Queue based on Redis",
+  "main": "RedisPriorityQueue.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Y2Nk4/node-redis-priority-queue.git"
+  },
+  "keywords": [
+    "redis",
+    "priority",
+    "priority-queue",
+    "queue"
+  ],
+  "author": "Y2Nk4",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Y2Nk4/node-redis-priority-queue/issues"
+  },
+  "homepage": "https://github.com/Y2Nk4/node-redis-priority-queue#readme",
+  "dependencies": {
+    "async": "^3.1.1",
+    "better-queue": "^3.8.10",
+    "collect.js": "^4.20.3",
+    "crypto": "^1.0.1",
+    "log4js": "^6.1.1",
+    "moment": "^2.24.0",
+    "once": "^1.4.0"
+  }
+}
