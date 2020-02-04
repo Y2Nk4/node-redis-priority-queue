@@ -3,6 +3,7 @@ let async = require('async'),
     crypto = require('crypto'),
     Queue = require('better-queue'),
     log4js = require('log4js'),
+    once = require('once'),
     moment = require('moment');
 
 class RedisPriorityQueue{
@@ -11,7 +12,7 @@ class RedisPriorityQueue{
         this.QueueName = QueueName;
 
         this.options = options || {
-
+            ActionTimeout: 10 * 1000,
         };
 
         this.GroupKey = GroupKey;
@@ -39,6 +40,7 @@ class RedisPriorityQueue{
         this._isFetchingItems = true;
 
         let fetchingJob = async (cb) => {
+            cb = once('cb')
             if(this._isFetchingItems){
                 try{
                     let StartTime = Date.now(),
@@ -61,10 +63,14 @@ class RedisPriorityQueue{
                         return cb(null);
                     }
                 }catch (e) {
-                    this._logger.error(e)
-                    this.TaskQueue.push(async (cb) => {
-                        fetchingJob(cb);
-                    })
+                    this._logger.error(e);
+
+                    // If Error is occurred, retry fetching after waiting for 1 seconds
+                    setTimeout(() => {
+                        this.TaskQueue.push(async (cb) => {
+                            fetchingJob(cb);
+                        });
+                    }, 1000)
                     return cb(null);
                 }
             }else{
